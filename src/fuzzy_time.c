@@ -81,8 +81,8 @@ static void update_time(struct tm *t) {
 	
   text_layer_set_text(s_data.label_3, s_data.dBuffer);
 
-  if (t->tm_hour == 0){
-    // each day, choose a new phrase
+  if ((t->tm_hour == 0) && (t->tm_min == 0)){
+    // each day at midnight, choose a new phrase
     GetPhrase(rand(), s_data.phraseBuffer, BUFFER_SIZE);
   }
 
@@ -102,7 +102,7 @@ static void handle_phrase_timeout(void *data) {
 
 static void handle_accel(AccelAxisType axis, int32_t direction) {
   if (s_data.phraseTimer){
-	// currently visible, choose a new phrase
+	// currently visible and shook, choose a new phrase
     app_timer_cancel(s_data.phraseTimer);
     s_data.phraseTimer = NULL;
 	GetPhrase(rand(), s_data.phraseBuffer, BUFFER_SIZE);
